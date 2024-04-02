@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-object NetworkService {
+object RemoteService {
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -25,8 +25,8 @@ object NetworkService {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
 
-    val networkApi: NetworkApi by lazy {
-        retrofit.create(NetworkApi::class.java)
+    val api: Api by lazy {
+        retrofit.create(Api::class.java)
     }
 
 }

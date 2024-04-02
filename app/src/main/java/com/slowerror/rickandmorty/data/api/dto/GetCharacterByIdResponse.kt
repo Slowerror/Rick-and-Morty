@@ -1,21 +1,21 @@
-package com.slowerror.rickandmorty.data.dto
+package com.slowerror.rickandmorty.data.api.dto
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GetCharacterByIdResponse(
-    val created: String = "",
-    val episode: List<String> = emptyList(),
-    val gender: String = "",
     val id: Int = 0,
-    val image: String = "",
-    val location: Location = Location(),
     val name: String = "",
-    val origin: Origin = Origin(),
-    val species: String = "",
     val status: String = "",
+    val species: String = "",
     val type: String = "",
-    val url: String = ""
+    val gender: String = "",
+    val origin: Origin = Origin(),
+    val location: Location = Location(),
+    val image: String = "",
+    val episode: List<String> = emptyList(),
+    val url: String = "",
+    val created: String = ""
 ) {
     @JsonClass(generateAdapter = true)
     data class Location(

@@ -5,19 +5,31 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.slowerror.rickandmorty.R
-import com.slowerror.rickandmorty.data.api.NetworkService
-import com.slowerror.rickandmorty.data.dto.GetCharacterByIdResponse
+import com.slowerror.rickandmorty.data.api.RemoteService
+import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
+import com.slowerror.rickandmorty.model.Character
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class CharacterDetailsFragment : Fragment() {
 
     private var _binding: FragmentCharacterDetailsBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: CharacterDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,25 +43,20 @@ class CharacterDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val api = NetworkService.networkApi
+        viewModel.getCharacter(2)
 
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            val content = api.getCharacterById(2)
+        viewModel.characterDetailsState
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { uiState ->
+                onVisibleView(uiState.isLoading)
 
-            launch(Dispatchers.Main) {
-                if (content.isSuccessful) {
-                    content.body()?.let { character ->
-                        setBinding(character)
-                    }
-                }
+                setBinding(uiState.character)
             }
-
-        }
-
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
     }
 
-    private fun setBinding(character: GetCharacterByIdResponse) {
+    private fun setBinding(character: Character) {
         binding.apply {
             nameTextView.text = character.name
             statusTextView.text = character.status
@@ -64,6 +71,39 @@ class CharacterDetailsFragment : Fragment() {
         }
     }
 
+    private fun onVisibleView(loading: Boolean) {
+        if (loading) {
+            binding.apply {
+                progressBar.isVisible = true
+
+                nameTextView.isVisible = false
+                statusTextView.isVisible = false
+                characterImage.isVisible = false
+                genderIcon.isVisible = false
+
+                originHeaderTextView.isVisible = false
+                originTextView.isVisible = false
+
+                speciesHeaderTextView.isVisible = false
+                speciesTextView.isVisible = false
+            }
+        } else {
+            binding.apply {
+                progressBar.isVisible = false
+
+                nameTextView.isVisible = true
+                statusTextView.isVisible = true
+                characterImage.isVisible = true
+                genderIcon.isVisible = true
+
+                originHeaderTextView.isVisible = true
+                originTextView.isVisible = true
+
+                speciesHeaderTextView.isVisible = true
+                speciesTextView.isVisible = true
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
