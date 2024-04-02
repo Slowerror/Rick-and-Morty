@@ -2,14 +2,13 @@ package com.slowerror.rickandmorty
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.slowerror.rickandmorty.data.api.NetworkService
-import com.slowerror.rickandmorty.data.dto.Character
+import com.slowerror.rickandmorty.ui.character_details.CharacterDetailsFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,12 +16,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val api = NetworkService.networkApi
 
-        lifecycleScope.launch {
-            api.getCharacters()
+        supportFragmentManager.commit {
+            replace(R.id.fragmentContainer, CharacterDetailsFragment())
+            setReorderingAllowed(true)
+            addToBackStack(null)
         }
-
-
     }
 }
