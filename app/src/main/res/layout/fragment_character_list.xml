@@ -4,17 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/space_16x"
+    android:layout_margin="@dimen/space_12x"
     tools:context=".ui.character_list.CharacterListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/characterListRw"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="12"
         tools:listitem="@layout/character_item" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_gravity="center" />
 
 </FrameLayout>
