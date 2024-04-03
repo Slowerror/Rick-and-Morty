@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.slowerror.rickandmorty.data.repository.CharacterRepository
 import com.slowerror.rickandmorty.model.Character
 import com.slowerror.rickandmorty.ui.character_details.CharacterDetailsState
@@ -33,12 +34,15 @@ class CharacterListViewModel @Inject constructor(
 
     private fun getCharacters() = viewModelScope.launch {
         _characterListState.update { it.copy(isLoading = true) }
-        characterRepository.getCharacterList().collectLatest {
-            _characterListState.update {state ->
-                Log.i("CharacterListFragment", state.characterList.toString())
-                state.copy(isLoading = false, characterList = it)
+
+        characterRepository.getCharacterList()
+            .cachedIn(viewModelScope)
+            .collectLatest {
+                _characterListState.update { state ->
+                    Log.i("CharacterListFragment", state.characterList.toString())
+                    state.copy(isLoading = false, characterList = it)
+                }
             }
-        }
     }
 
 

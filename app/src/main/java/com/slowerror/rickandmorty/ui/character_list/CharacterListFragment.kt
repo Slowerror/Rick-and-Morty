@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.map
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class CharacterListFragment : Fragment() {
+class CharacterListFragment : Fragment(), CharacterOnClickInterface {
 
     private var _binding: FragmentCharacterListBinding? = null
     private val binding get() = _binding!!
@@ -41,7 +42,7 @@ class CharacterListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val characterListAdapter = CharacterListAdapter()
+        val characterListAdapter = CharacterListAdapter(this)
         binding.characterListRw.adapter = characterListAdapter
 
         viewModel.characterListState
@@ -65,4 +66,13 @@ class CharacterListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onClick(characterId: Int) {
+        findNavController().navigate(
+            CharacterListFragmentDirections
+                .actionCharacterListFragmentToCharacterDetailsFragment(characterId)
+        )
+    }
+
+
 }

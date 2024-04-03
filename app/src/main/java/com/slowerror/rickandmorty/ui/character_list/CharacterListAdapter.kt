@@ -1,6 +1,5 @@
 package com.slowerror.rickandmorty.ui.character_list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -10,7 +9,9 @@ import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemBinding
 import com.slowerror.rickandmorty.model.Character
 
-class CharacterListAdapter :
+class CharacterListAdapter(
+    private val characterOnClickInterface: CharacterOnClickInterface
+) :
     PagingDataAdapter<Character, CharacterListAdapter.CharacterViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
@@ -18,19 +19,25 @@ class CharacterListAdapter :
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        getItem(position)?.let { holder.bind(it, characterOnClickInterface) }
     }
 
-    class CharacterViewHolder(private val binding: CharacterItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class CharacterViewHolder(
+        private val binding: CharacterItemBinding,
 
-        fun bind(item: Character) {
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: Character, characterOnClickInterface: CharacterOnClickInterface) {
 
             binding.apply {
                 characterImage.load(item.image)
                 characterNameTextView.text = item.name
-            }
 
+                root.setOnClickListener {
+                    characterOnClickInterface.onClick(item.id)
+                }
+
+            }
         }
 
         companion object {

@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import coil.load
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.data.api.RemoteService
@@ -30,6 +31,7 @@ class CharacterDetailsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CharacterDetailsViewModel by viewModels()
+    private val args: CharacterDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +44,7 @@ class CharacterDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.getCharacter(2)
+        viewModel.getCharacter(args.characterId)
 
         viewModel.characterDetailsState
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)

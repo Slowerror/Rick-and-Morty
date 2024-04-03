@@ -22,7 +22,7 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     override fun getCharacterList(): Flow<PagingData<Character>> {
-        return Pager(PagingConfig(pageSize = 5)) { characterPagingSource }.flow
+        return Pager(PagingConfig(pageSize = 20)) { characterPagingSource }.flow
             .map { pagingData ->
                 pagingData.map { it.toModel() }
             }
