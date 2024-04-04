@@ -23,8 +23,7 @@ class CharacterListAdapter(
     }
 
     class CharacterViewHolder(
-        private val binding: CharacterItemBinding,
-
+        private val binding: CharacterItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Character, characterOnClickInterface: CharacterOnClickInterface) {

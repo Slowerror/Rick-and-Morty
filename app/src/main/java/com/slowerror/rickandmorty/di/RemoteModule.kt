@@ -1,8 +1,8 @@
 package com.slowerror.rickandmorty.di
 
-import com.slowerror.rickandmorty.data.api.Api
-import com.slowerror.rickandmorty.data.api.RemoteDataSource
 import com.slowerror.rickandmorty.data.api.RemoteService
+import com.slowerror.rickandmorty.data.api.CharacterPagingDataSource
+import com.slowerror.rickandmorty.data.api.RemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,14 +15,14 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideNetworkApi(): Api {
-        return RemoteService.api
+    fun provideNetworkApi(): RemoteService {
+        return RemoteService.runService()
     }
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(api: Api): RemoteDataSource {
-        return RemoteDataSource(api)
+    fun provideRemoteDataSource(dataSource: CharacterPagingDataSource, remoteService: RemoteService): RemoteDataSource {
+        return RemoteDataSource(dataSource, remoteService)
     }
 
 }

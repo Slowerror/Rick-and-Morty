@@ -13,16 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.slowerror.rickandmorty.R
-import com.slowerror.rickandmorty.data.api.RemoteService
-import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
 import com.slowerror.rickandmorty.model.Character
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CharacterDetailsFragment : Fragment() {
