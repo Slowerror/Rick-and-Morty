@@ -4,10 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
@@ -16,6 +13,7 @@ class RemoteDataSource @Inject constructor(
 ) {
 
     suspend fun getCharacterById(characterId: Int) = remoteService.getCharacterById(characterId)
+
 
     fun getCharacterList(): Flow<PagingData<GetCharacterByIdResponse>> {
         return Pager(

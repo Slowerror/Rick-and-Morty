@@ -2,9 +2,8 @@ package com.slowerror.rickandmorty.ui.character_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.slowerror.rickandmorty.ui.State
+import com.slowerror.rickandmorty.common.Resource
 import com.slowerror.rickandmorty.data.repository.CharacterRepository
-import com.slowerror.rickandmorty.model.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,20 +16,32 @@ class CharacterDetailsViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
 ) : ViewModel() {
 
-    private val _characterDetailsState = MutableStateFlow<State<Character>>(State.loading())
+    private val _characterDetailsState = MutableStateFlow(CharacterDetailsState())
     val characterDetailsState = _characterDetailsState.asStateFlow()
 
     fun getCharacter(id: Int) = viewModelScope.launch {
-        _characterDetailsState.update { State.loading() }
-        try {
-            val response = characterRepository.getCharacterById(id)
-            _characterDetailsState.update {
-                State.success(response)
+        _characterDetailsState.update { it.copy(isLoading = true) }
+
+        when (val response = characterRepository.getCharacterById(id)) {
+            is Resource.Error -> {
+                _characterDetailsState.update {
+                    it.copy(
+                        isLoading = false,
+                        data = CharacterDetailsState.emptyData(),
+                        errorMessage = response.message
+                    )
+                }
             }
-        } catch (e: Exception) {
-            _characterDetailsState.update {
-                State.error(e.message.orEmpty())
+            is Resource.Success -> {
+                _characterDetailsState.update {
+                    it.copy(
+                        isLoading = false,
+                        data = response.data,
+                        errorMessage = null
+                    )
+                }
             }
         }
+
     }
 }

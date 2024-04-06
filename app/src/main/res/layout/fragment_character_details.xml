@@ -24,12 +24,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_4x"
+        android:layout_marginStart="@dimen/space_8x"
         android:textSize="@dimen/font_18x"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@id/nameTextView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/statusIcon"
         app:layout_constraintTop_toBottomOf="@id/nameTextView"
         tools:text="Dead" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/statusIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_circle_24"
+        app:layout_constraintTop_toTopOf="@id/statusTextView"
+        app:layout_constraintBottom_toBottomOf="@id/statusTextView"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/genderIcon"

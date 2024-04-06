@@ -3,29 +3,23 @@ package com.slowerror.rickandmorty.ui.character_list
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
-import androidx.paging.map
 import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
-import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
 import com.slowerror.rickandmorty.databinding.FragmentCharacterListBinding
-import com.slowerror.rickandmorty.ui.State
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 private const val I_TAG = "CharacterListFragment"
 
@@ -63,6 +57,12 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list), Charac
             }
         }
         binding.characterListRw.adapter = characterListAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.characterList.collectLatest { characterListAdapter.submitData(it) }
+            }
+        }
 
         viewModel.characterList
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)

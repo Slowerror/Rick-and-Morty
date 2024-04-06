@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
-import com.slowerror.rickandmorty.ui.State
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
 import com.slowerror.rickandmorty.model.Character
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,28 +34,17 @@ class CharacterDetailsFragment : Fragment(R.layout.fragment_character_details) {
 
         viewModel.characterDetailsState
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .onEach { uiState ->
-                when (uiState) {
-                    is State.Error -> {
-                        onVisibleView(false)
-                        if (uiState.message.isNotEmpty()) {
-                            Snackbar.make(
-                                requireView(),
-                                "Произошла ошибка: ${uiState.message}",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                    is State.Loading -> {
-                        onVisibleView(true)
-                    }
-                    is State.Success -> {
-                        onVisibleView(false)
-                        setBinding(uiState.data)
-                    }
+            .onEach { state ->
+                onVisibleView(state.isLoading)
+                setBinding(state.data)
+
+                if (state.errorMessage != null) {
+                    Snackbar.make(
+                        requireView(),
+                        "Произошла ошибка: ${state.errorMessage}",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
-
-
 
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -67,10 +55,12 @@ class CharacterDetailsFragment : Fragment(R.layout.fragment_character_details) {
         if (character == null) return
         binding.apply {
             nameTextView.text = character.name
-            statusTextView.text = character.status
+            statusTextView.text = character.statusWithSpecies()
             characterImage.load(character.image)
             originTextView.text = character.origin.name
             speciesTextView.text = character.species
+
+            statusIcon.setColorFilter(character.statusColor(requireContext()))
 
             when (character.gender) {
                 "Female" -> genderIcon.setImageResource(R.drawable.ic_female_24)
@@ -80,36 +70,21 @@ class CharacterDetailsFragment : Fragment(R.layout.fragment_character_details) {
     }
 
     private fun onVisibleView(loading: Boolean) {
-        if (loading) {
-            binding.apply {
-                progressBar.isVisible = true
+        binding.apply {
+            progressBar.isVisible = loading
 
-                nameTextView.isVisible = false
-                statusTextView.isVisible = false
-                characterImage.isVisible = false
-                genderIcon.isVisible = false
+            nameTextView.isVisible = !loading
+            statusTextView.isVisible = !loading
+            characterImage.isVisible = !loading
 
-                originHeaderTextView.isVisible = false
-                originTextView.isVisible = false
+            genderIcon.isVisible = !loading
+            statusIcon.isVisible = !loading
 
-                speciesHeaderTextView.isVisible = false
-                speciesTextView.isVisible = false
-            }
-        } else {
-            binding.apply {
-                progressBar.isVisible = false
+            originHeaderTextView.isVisible = !loading
+            originTextView.isVisible = !loading
 
-                nameTextView.isVisible = true
-                statusTextView.isVisible = true
-                characterImage.isVisible = true
-                genderIcon.isVisible = true
-
-                originHeaderTextView.isVisible = true
-                originTextView.isVisible = true
-
-                speciesHeaderTextView.isVisible = true
-                speciesTextView.isVisible = true
-            }
+            speciesHeaderTextView.isVisible = !loading
+            speciesTextView.isVisible = !loading
         }
     }
 
