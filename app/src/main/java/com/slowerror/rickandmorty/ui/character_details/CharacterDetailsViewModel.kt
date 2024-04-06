@@ -2,7 +2,9 @@ package com.slowerror.rickandmorty.ui.character_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.slowerror.rickandmorty.ui.State
 import com.slowerror.rickandmorty.data.repository.CharacterRepository
+import com.slowerror.rickandmorty.model.Character
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,19 +17,19 @@ class CharacterDetailsViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
 ) : ViewModel() {
 
-    private val _characterDetailsState = MutableStateFlow(CharacterDetailsState())
+    private val _characterDetailsState = MutableStateFlow<State<Character>>(State.loading())
     val characterDetailsState = _characterDetailsState.asStateFlow()
 
-    fun getCharacter(id: Int) {
-        _characterDetailsState.update { it.copy(isLoading = true) }
-        viewModelScope.launch {
-            val data = characterRepository.getCharacterById(id)
-
+    fun getCharacter(id: Int) = viewModelScope.launch {
+        _characterDetailsState.update { State.loading() }
+        try {
+            val response = characterRepository.getCharacterById(id)
             _characterDetailsState.update {
-                it.copy(
-                    isLoading = false,
-                    character = data
-                )
+                State.success(response)
+            }
+        } catch (e: Exception) {
+            _characterDetailsState.update {
+                State.error(e.message.orEmpty())
             }
         }
     }

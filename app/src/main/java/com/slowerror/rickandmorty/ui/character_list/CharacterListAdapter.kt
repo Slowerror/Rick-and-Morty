@@ -11,8 +11,7 @@ import com.slowerror.rickandmorty.model.Character
 
 class CharacterListAdapter(
     private val characterOnClickInterface: CharacterOnClickInterface
-) :
-    PagingDataAdapter<Character, CharacterListAdapter.CharacterViewHolder>(DiffUtilCallback) {
+) : PagingDataAdapter<Character, CharacterListAdapter.CharacterViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         return CharacterViewHolder.from(parent)
@@ -33,7 +32,7 @@ class CharacterListAdapter(
                 characterNameTextView.text = item.name
 
                 root.setOnClickListener {
-                    characterOnClickInterface.onClick(item.id)
+                    characterOnClickInterface.onClickToItem(item.id)
                 }
 
             }

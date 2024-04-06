@@ -1,7 +1,8 @@
-package com.slowerror.rickandmorty
+package com.slowerror.rickandmorty.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.slowerror.rickandmorty.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -36,12 +36,10 @@ interface RemoteService {
             .build()
 
 
-        private val moshi = Moshi.Builder().build()
-
         private val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
 

@@ -1,10 +1,8 @@
 package com.slowerror.rickandmorty.ui.character_details
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,7 +10,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
+import com.slowerror.rickandmorty.ui.State
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
 import com.slowerror.rickandmorty.model.Character
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class CharacterDetailsFragment : Fragment() {
+class CharacterDetailsFragment : Fragment(R.layout.fragment_character_details) {
 
     private var _binding: FragmentCharacterDetailsBinding? = null
     private val binding get() = _binding!!
@@ -28,31 +28,43 @@ class CharacterDetailsFragment : Fragment() {
     private val viewModel: CharacterDetailsViewModel by viewModels()
     private val args: CharacterDetailsFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCharacterDetailsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCharacterDetailsBinding.bind(view)
         viewModel.getCharacter(args.characterId)
 
         viewModel.characterDetailsState
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach { uiState ->
-                onVisibleView(uiState.isLoading)
+                when (uiState) {
+                    is State.Error -> {
+                        onVisibleView(false)
+                        if (uiState.message.isNotEmpty()) {
+                            Snackbar.make(
+                                requireView(),
+                                "Произошла ошибка: ${uiState.message}",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    is State.Loading -> {
+                        onVisibleView(true)
+                    }
+                    is State.Success -> {
+                        onVisibleView(false)
+                        setBinding(uiState.data)
+                    }
+                }
 
-                setBinding(uiState.character)
+
+
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
     }
 
-    private fun setBinding(character: Character) {
+    private fun setBinding(character: Character?) {
+        if (character == null) return
         binding.apply {
             nameTextView.text = character.name
             statusTextView.text = character.status
