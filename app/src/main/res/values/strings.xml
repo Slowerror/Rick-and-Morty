@@ -6,4 +6,7 @@
     <string name="alive">Alive</string>
     <string name="dead">Dead</string>
     <string name="unknown">unknown</string>
+    <string name="reload">обновить</string>
+    <string name="no_connection">Нет соединения</string>
+    <string name="description_no_connection_message">Пожалуйста проверьте соединение с интернетом и повторите попытку</string>
 </resources>

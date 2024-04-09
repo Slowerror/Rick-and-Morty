@@ -1,5 +1,6 @@
 package com.slowerror.rickandmorty.ui.character_list
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -8,10 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemBinding
 import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.ui.character_list.CharacterListAdapter.CharacterViewHolder
+
+const val VIEW_TYPE_NORMAL = 0
+const val VIEW_TYPE_FOOTER = 1
 
 class CharacterListAdapter(
     private val characterOnClickInterface: CharacterOnClickInterface
-) : PagingDataAdapter<Character, CharacterListAdapter.CharacterViewHolder>(DiffUtilCallback) {
+) : PagingDataAdapter<Character, CharacterViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         return CharacterViewHolder.from(parent)
@@ -20,6 +25,11 @@ class CharacterListAdapter(
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it, characterOnClickInterface) }
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) VIEW_TYPE_FOOTER else VIEW_TYPE_NORMAL
+    }
+
 
     class CharacterViewHolder(
         private val binding: CharacterItemBinding
@@ -47,7 +57,9 @@ class CharacterListAdapter(
         }
     }
 
+
     object DiffUtilCallback : DiffUtil.ItemCallback<Character>() {
+
         override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
             return oldItem.id == newItem.id
         }

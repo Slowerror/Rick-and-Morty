@@ -2,7 +2,6 @@ package com.slowerror.rickandmorty.data.api
 
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterListResponse
-import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response

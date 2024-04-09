@@ -10,9 +10,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/characterListRw"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
+        android:layout_height="wrap_content"
         tools:itemCount="12"
         tools:listitem="@layout/character_item" />
 
@@ -21,6 +19,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
+        android:layout_gravity="center" />
+
+    <include
+        android:id="@+id/reloadLayout"
+        layout="@layout/layout_reload_response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
 </FrameLayout>
