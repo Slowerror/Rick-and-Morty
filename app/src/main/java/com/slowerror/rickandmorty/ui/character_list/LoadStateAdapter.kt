@@ -20,10 +20,6 @@ class LoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadVie
         holder.bind(loadState)
     }
 
-    override fun getStateViewType(loadState: LoadState): Int {
-        return super.getStateViewType(loadState)
-
-    }
 
     class LoadViewHolder(
         private val binding: LayoutReloadResponseBinding,
@@ -51,4 +47,5 @@ class LoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadVie
             }
         }
     }
+
 }

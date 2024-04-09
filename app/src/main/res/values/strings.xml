@@ -9,4 +9,6 @@
     <string name="reload">обновить</string>
     <string name="no_connection">Нет соединения</string>
     <string name="description_no_connection_message">Пожалуйста проверьте соединение с интернетом и повторите попытку</string>
+
+    <string name="status_with_species">%1$s - %2$s</string>
 </resources>

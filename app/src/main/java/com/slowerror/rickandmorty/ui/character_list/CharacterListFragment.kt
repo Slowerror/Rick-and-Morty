@@ -1,9 +1,6 @@
 package com.slowerror.rickandmorty.ui.character_list
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -13,23 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentCharacterListBinding
+import com.slowerror.rickandmorty.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 private const val TAG = "CharacterListFragment"
 
 @AndroidEntryPoint
-class CharacterListFragment : Fragment(R.layout.fragment_character_list),
+class CharacterListFragment :
+    BaseFragment(R.layout.fragment_character_list),
     CharacterOnClickInterface {
 
     private var _binding: FragmentCharacterListBinding? = null
@@ -67,7 +59,7 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
                     ?: loadState.source.refresh as? LoadState.Error
 
                 errorState?.let {
-                    showError(it)
+                    showLongSnackBar(requireView(), it.error.localizedMessage)
                 }
 
             }
@@ -104,14 +96,6 @@ class CharacterListFragment : Fragment(R.layout.fragment_character_list),
             CharacterListFragmentDirections
                 .actionCharacterListFragmentToCharacterDetailsFragment(characterId)
         )
-    }
-
-    private fun showError(errorState: LoadState.Error?) {
-        errorState?.let {
-            Log.i(TAG, "${it.error.message}")
-            Snackbar.make(requireView(), "${it.error.message}", Snackbar.LENGTH_LONG)
-                .show()
-        }
     }
 
 }

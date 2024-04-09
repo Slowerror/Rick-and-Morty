@@ -1,6 +1,5 @@
 package com.slowerror.rickandmorty.ui.character_list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -12,7 +11,7 @@ import com.slowerror.rickandmorty.model.Character
 import com.slowerror.rickandmorty.ui.character_list.CharacterListAdapter.CharacterViewHolder
 
 const val VIEW_TYPE_NORMAL = 0
-const val VIEW_TYPE_FOOTER = 1
+private const val VIEW_TYPE_FOOTER = 1
 
 class CharacterListAdapter(
     private val characterOnClickInterface: CharacterOnClickInterface

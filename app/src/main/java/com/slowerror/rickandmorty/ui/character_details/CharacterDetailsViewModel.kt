@@ -26,7 +26,13 @@ class CharacterDetailsViewModel @Inject constructor(
         fetchJob?.cancel()
 
         fetchJob = viewModelScope.launch {
-            _characterDetailsState.update { it.copy(isLoading = true) }
+            _characterDetailsState.update {
+                it.copy(
+                    isLoading = true,
+                    data = null,
+                    errorMessage = null
+                )
+            }
 
             when (val response = characterRepository.getCharacterById(id)) {
                 is Resource.Success -> {
@@ -38,6 +44,7 @@ class CharacterDetailsViewModel @Inject constructor(
                         )
                     }
                 }
+
                 is Resource.Error -> {
                     _characterDetailsState.update {
                         it.copy(

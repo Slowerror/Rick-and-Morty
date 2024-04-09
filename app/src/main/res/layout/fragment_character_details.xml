@@ -49,19 +49,19 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_male_24" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/characterImage"
         android:layout_width="220dp"
         android:layout_height="220dp"
         android:layout_marginTop="@dimen/space_32x"
-
-
+        android:elevation="@dimen/space_4x"
+        android:padding="@dimen/space_1x"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/statusTextView"
         app:strokeColor="?attr/colorOnSurface"
-
+        app:strokeWidth="@dimen/space_1x"
         tools:src="@tools:sample/avatars" />
 
     <com.google.android.material.textview.MaterialTextView

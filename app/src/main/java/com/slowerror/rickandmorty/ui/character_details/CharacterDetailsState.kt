@@ -6,10 +6,4 @@ data class CharacterDetailsState(
     val isLoading: Boolean = false,
     val data: Character? = null,
     val errorMessage: String? = null
-) {
-    companion object {
-        fun emptyData(): Character {
-            return Character()
-        }
-    }
-}
+)

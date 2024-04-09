@@ -25,15 +25,4 @@ data class Character(
         val name: String = "",
         val url: String = ""
     )
-
-    fun statusWithSpecies(): String = "$status - $species"
-
-
-    fun statusColor(context: Context): Int {
-        return when(status) {
-            "Alive" -> context.getColor(R.color.lime_green)
-            "Dead" -> context.getColor(R.color.red)
-            else -> context.getColor(R.color.silver)
-        }
-    }
 }
