@@ -11,4 +11,7 @@
     <string name="description_no_connection_message">Пожалуйста проверьте соединение с интернетом и повторите попытку</string>
 
     <string name="status_with_species">%1$s - %2$s</string>
+
+    <string name="characters_label">Персонажи</string>
+    <string name="character_details_label">Подробности персонажа</string>
 </resources>

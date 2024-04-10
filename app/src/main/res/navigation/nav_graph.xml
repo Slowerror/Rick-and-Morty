@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/characterListFragment"
         android:name="com.slowerror.rickandmorty.ui.character_list.CharacterListFragment"
-        android:label="fragment_character_list"
+        android:label="@string/characters_label"
         tools:layout="@layout/fragment_character_list" >
         <action
             android:id="@+id/action_characterListFragment_to_characterDetailsFragment"
@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.slowerror.rickandmorty.ui.character_details.CharacterDetailsFragment"
-        android:label="fragment_character_details"
+        android:label="@string/character_details_label"
         tools:layout="@layout/fragment_character_details" >
 
         <!--suppress NavigationFile -->
