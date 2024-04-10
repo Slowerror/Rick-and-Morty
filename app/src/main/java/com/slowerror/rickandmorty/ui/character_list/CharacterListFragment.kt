@@ -13,11 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentCharacterListBinding
 import com.slowerror.rickandmorty.ui.base.BaseFragment
+import com.slowerror.rickandmorty.ui.base.LoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
-private const val TAG = "CharacterListFragment"
 
 @AndroidEntryPoint
 class CharacterListFragment :

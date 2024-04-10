@@ -1,5 +1,6 @@
 package com.slowerror.rickandmorty.data.api
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.slowerror.rickandmorty.data.STARTED_KEY
@@ -20,13 +21,14 @@ class EpisodePagingDataSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetEpisodeByIdResponse> {
         return try {
+            Log.i("EpisodePaging", "load was called")
             val pageNumber = params.key ?: STARTED_KEY
             val response = remoteService.getEpisodeList(pageNumber)
 
             if (response.isSuccessful) {
                 val pageResponse = response.body()
-                val data = pageResponse?.result
-
+                val data = pageResponse?.results
+                Log.i("EpisodePaging", "$data")
                 val prevKey = getPage(pageResponse?.info?.prev)
                 val nextKey = getPage(pageResponse?.info?.next)
 
@@ -36,10 +38,12 @@ class EpisodePagingDataSource @Inject constructor(
                     nextKey = nextKey
                 )
             } else {
+                Log.i("EpisodePaging", "else")
                 LoadResult.Error(HttpException(response))
             }
 
         } catch (e: Exception) {
+            Log.i("EpisodePaging", "catch")
             LoadResult.Error(e)
         }
     }

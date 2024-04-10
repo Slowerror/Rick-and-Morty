@@ -30,12 +30,6 @@ class RemoteDataSource @Inject constructor(
     suspend fun getEpisodeById(episodeId: Int) = remoteService.getEpisodeById(episodeId)
 
     fun getEpisodeList(): Flow<PagingData<GetEpisodeByIdResponse>> {
-        return Pager(
-            PagingConfig(
-                pageSize = 20,
-                prefetchDistance = 40,
-                enablePlaceholders = false
-            )
-        ) { episodePagingDataSource }.flow
+        return Pager(PagingConfig(pageSize = 20)) { episodePagingDataSource }.flow
     }
 }

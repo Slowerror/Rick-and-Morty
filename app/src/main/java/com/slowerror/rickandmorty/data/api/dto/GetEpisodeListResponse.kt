@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class GetEpisodeListResponse(
     val info: PageInfo,
-    val result: List<GetEpisodeByIdResponse>
+    val results: List<GetEpisodeByIdResponse>
 )

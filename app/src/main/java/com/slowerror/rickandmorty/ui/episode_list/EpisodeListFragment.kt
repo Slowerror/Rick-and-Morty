@@ -1,32 +1,78 @@
 package com.slowerror.rickandmorty.ui.episode_list
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.slowerror.rickandmorty.R
+import com.slowerror.rickandmorty.databinding.FragmentEpisodeListBinding
+import com.slowerror.rickandmorty.ui.base.BaseFragment
+import com.slowerror.rickandmorty.ui.base.LoadStateAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class EpisodeListFragment : Fragment() {
+@AndroidEntryPoint
+class EpisodeListFragment : BaseFragment(R.layout.fragment_episode_list), EpisodeOnClickInterface {
 
-    companion object {
-        fun newInstance() = EpisodeListFragment()
+    private var _binding: FragmentEpisodeListBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: EpisodeListViewModel by viewModels()
+
+    private val episodeListAdapter by lazy { EpisodeListAdapter(this) }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentEpisodeListBinding.bind(view)
+
+        binding.episodeListRw.adapter = episodeListAdapter.withLoadStateFooter(
+            footer = LoadStateAdapter { episodeListAdapter.retry() }
+        )
+
+        binding.reloadLayout.retryButton.setOnClickListener {
+            episodeListAdapter.retry()
+        }
+
+        episodeListAdapter.loadStateFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { loadState ->
+
+                binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+                binding.reloadLayout.root.isVisible = loadState.source.refresh is LoadState.Error
+
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.source.refresh as? LoadState.Error
+
+                errorState?.let {
+                    showLongSnackBar(requireView(), it.error.localizedMessage)
+                }
+
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewModel.episodeList
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { episodeListAdapter.submitData(it) }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private lateinit var viewModel: EpisodeListViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_episode_list, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(EpisodeListViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onClickToItem(episodeId: Int) {
+        findNavController().navigate(
+            EpisodeListFragmentDirections
+                .actionEpisodeListFragmentToEpisodeDetailsFragment(episodeId)
+        )
     }
 
 }

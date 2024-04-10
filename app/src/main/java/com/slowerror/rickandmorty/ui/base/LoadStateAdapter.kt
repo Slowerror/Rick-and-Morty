@@ -1,4 +1,4 @@
-package com.slowerror.rickandmorty.ui.character_list
+package com.slowerror.rickandmorty.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.LayoutReloadResponseBinding
-import com.slowerror.rickandmorty.ui.character_list.LoadStateAdapter.LoadViewHolder
+import com.slowerror.rickandmorty.ui.base.LoadStateAdapter.LoadViewHolder
 
 class LoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadViewHolder>() {
 

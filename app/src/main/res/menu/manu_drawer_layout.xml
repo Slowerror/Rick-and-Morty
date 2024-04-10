@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/characterListFragment"
-        android:icon="@drawable/ic_characters_24"
-        android:title="@string/characters_label" />
+    <item android:title="@string/characters_label">
+        <menu>
+            <item
+                android:id="@+id/characterListFragment"
+                android:icon="@drawable/ic_characters_24"
+                android:title="@string/all_characters_label"
+                android:checkable="true"/>
+        </menu>
+    </item>
 
-    <item
-        android:id="@+id/episodeListFragment"
-        android:icon="@drawable/ic_episodes_24"
-        android:title="@string/episodes_label" />
+    <item android:title="@string/episodes_label">
+        <menu>
+            <item
+                android:id="@+id/episodeListFragment"
+                android:icon="@drawable/ic_episodes_24"
+                android:title="@string/all_episodes_label"
+                android:checkable="true"/>
+        </menu>
+    </item>
 
 </menu>
