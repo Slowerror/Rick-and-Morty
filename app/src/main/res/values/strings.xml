@@ -14,4 +14,7 @@
 
     <string name="characters_label">Персонажи</string>
     <string name="character_details_label">Подробности персонажа</string>
+    <string name="episodes_label">Эпизоды</string>
+    <string name="episode_details_label">Подробности эпизода</string>
+
 </resources>

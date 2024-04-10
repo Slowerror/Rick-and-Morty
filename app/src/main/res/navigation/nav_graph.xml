@@ -29,4 +29,30 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/episodeListFragment"
+        android:name="com.slowerror.rickandmorty.ui.episode_list.EpisodeListFragment"
+        android:label="@string/episodes_label"
+        tools:layout="@layout/fragment_episode_list" >
+
+        <action
+            android:id="@+id/action_episodeListFragment_to_episodeDetailsFragment"
+            app:destination="@id/episodeDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/episodeDetailsFragment"
+        android:name="com.slowerror.rickandmorty.ui.episode_details.EpisodeDetailsFragment"
+        android:label="@string/episode_details_label"
+        tools:layout="@layout/fragment_episode_details" >
+
+        <!--suppress NavigationFile -->
+        <argument
+            android:name="episodeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+
+    </fragment>
+
 </navigation>

@@ -2,6 +2,7 @@ package com.slowerror.rickandmorty.di
 
 import com.slowerror.rickandmorty.data.api.RemoteService
 import com.slowerror.rickandmorty.data.api.CharacterPagingDataSource
+import com.slowerror.rickandmorty.data.api.EpisodePagingDataSource
 import com.slowerror.rickandmorty.data.api.RemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -21,8 +22,16 @@ object RemoteModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(dataSource: CharacterPagingDataSource, remoteService: RemoteService): RemoteDataSource {
-        return RemoteDataSource(dataSource, remoteService)
+    fun provideRemoteDataSource(
+        characterDataSource: CharacterPagingDataSource,
+        episodeDataSource: EpisodePagingDataSource,
+        remoteService: RemoteService
+    ): RemoteDataSource {
+        return RemoteDataSource(
+            characterPagingDataSource = characterDataSource,
+            episodePagingDataSource = episodeDataSource,
+            remoteService = remoteService
+        )
     }
 
 }

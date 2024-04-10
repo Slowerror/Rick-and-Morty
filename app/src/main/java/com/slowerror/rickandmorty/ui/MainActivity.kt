@@ -2,10 +2,8 @@ package com.slowerror.rickandmorty.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.customview.widget.Openable
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -36,7 +34,10 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         val navItem = findViewById<NavigationView>(R.id.navView)
 
-        appBarConfig = AppBarConfiguration(navController.graph, drawerLayout = drawerLayout)
+        appBarConfig = AppBarConfiguration(
+            setOf(R.id.characterListFragment, R.id.episodeListFragment),
+            drawerLayout = drawerLayout
+        )
 
         setupActionBarWithNavController(navController, appBarConfig)
         navItem.setupWithNavController(navController)

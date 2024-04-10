@@ -2,6 +2,8 @@ package com.slowerror.rickandmorty.data.api
 
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterListResponse
+import com.slowerror.rickandmorty.data.api.dto.GetEpisodeByIdResponse
+import com.slowerror.rickandmorty.data.api.dto.GetEpisodeListResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -19,6 +21,11 @@ interface RemoteService {
     @GET(CHARACTER_ENDPOINT)
     suspend fun getCharacterList(@Query("page") page: Int): Response<GetCharacterListResponse>
 
+    @GET("$EPISODE_ENDPOINT/{id}")
+    suspend fun getEpisodeById(@Path("id") id: Int): Response<GetEpisodeByIdResponse>
+
+    @GET(EPISODE_ENDPOINT)
+    suspend fun getEpisodeList(@Query("id") page: Int): Response<GetEpisodeListResponse>
 
     companion object {
         private const val BASE_URL="https://rickandmortyapi.com/api/"
