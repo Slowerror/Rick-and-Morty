@@ -6,7 +6,6 @@ import com.slowerror.rickandmorty.common.Resource
 import com.slowerror.rickandmorty.data.repository.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -27,31 +26,19 @@ class EpisodeDetailsViewModel @Inject constructor(
         fetchJob = null
         fetchJob = viewModelScope.launch {
             _episodeDetailsState.update {
-                it.copy(
-                    isLoading = true,
-                    data = null,
-                    errorMessage = null
-                )
+                it.copy(isLoading = true, data = null, errorMessage = null)
             }
-            delay(500)
+
             when (val response = episodeRepository.getEpisodeById(episodeId)) {
                 is Resource.Success -> {
                     _episodeDetailsState.update {
-                        it.copy(
-                            isLoading = false,
-                            data = response.data,
-                            errorMessage = null
-                        )
+                        it.copy(isLoading = false, data = response.data, errorMessage = null)
                     }
                 }
 
                 is Resource.Error -> {
                     _episodeDetailsState.update {
-                        it.copy(
-                            isLoading = false,
-                            data = null,
-                            errorMessage = response.message
-                        )
+                        it.copy(isLoading = false, data = null, errorMessage = response.message)
                     }
                 }
             }

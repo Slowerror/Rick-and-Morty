@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentEpisodeDetailsBinding
 import com.slowerror.rickandmorty.model.Episode
-import com.slowerror.rickandmorty.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -26,7 +25,6 @@ class EpisodeDetailsFragment : BottomSheetDialogFragment(R.layout.fragment_episo
 
     private val viewModel: EpisodeDetailsViewModel by viewModels()
     private val safeArgs: EpisodeDetailsFragmentArgs by navArgs()
-    private val episodeWithCharacterAdapter by lazy { EpisodeWithCharacterAdapter() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,8 +35,6 @@ class EpisodeDetailsFragment : BottomSheetDialogFragment(R.layout.fragment_episo
         binding.reloadLayout.retryButton.setOnClickListener {
             viewModel.fetchEpisode(safeArgs.episodeId)
         }
-
-        binding.characterListRw.adapter = EpisodeWithCharacterAdapter()
 
         viewModel.episodeDetailsState
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
@@ -75,7 +71,10 @@ class EpisodeDetailsFragment : BottomSheetDialogFragment(R.layout.fragment_episo
             nameTextView.text = getString(R.string.number_episode_with_name, data.id, data.name)
             episodeTextView.text = data.episode
             airDataTextView.text = data.airDate
-            episodeWithCharacterAdapter.submitList(data.characters)
+
+            characterListRw.adapter = EpisodeWithCharacterAdapter().apply {
+                submitList(data.characters)
+            }
         }
     }
 

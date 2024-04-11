@@ -1,12 +1,13 @@
 package com.slowerror.rickandmorty.data.mappers
 
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
+import com.slowerror.rickandmorty.data.api.dto.GetEpisodeByIdResponse
 import com.slowerror.rickandmorty.model.Character
 
 typealias originDto = GetCharacterByIdResponse.Origin
 typealias locationDto = GetCharacterByIdResponse.Location
 
-fun GetCharacterByIdResponse.toModel(): Character {
+fun GetCharacterByIdResponse.toModel(episodes: List<GetEpisodeByIdResponse> = emptyList()): Character {
     return Character(
         id,
         name,
@@ -17,8 +18,12 @@ fun GetCharacterByIdResponse.toModel(): Character {
         origin.toModel(),
         location.toModel(),
         image,
-        episode
+        episode = episodes.toEpisodeList()
     )
+}
+
+fun List<GetCharacterByIdResponse>.toCharacterList(): List<Character> {
+    return this.map { it.toModel() }
 }
 
 fun originDto.toModel(): Character.Origin {

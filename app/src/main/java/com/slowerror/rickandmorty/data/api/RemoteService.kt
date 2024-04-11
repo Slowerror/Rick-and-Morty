@@ -27,8 +27,11 @@ interface RemoteService {
     @GET(EPISODE_ENDPOINT)
     suspend fun getEpisodeList(@Query("page") page: Int): Response<GetEpisodeListResponse>
 
+    @GET("$EPISODE_ENDPOINT/{list}")
+    suspend fun getMultipleEpisodeList(@Path("list") episodeList: String): Response<List<GetEpisodeByIdResponse>>
+
     @GET("$CHARACTER_ENDPOINT/{list}")
-    suspend fun getMultipleCharacterList(@Path("list") list: List<String>): Response<List<GetCharacterByIdResponse>>
+    suspend fun getMultipleCharacterList(@Path("list") characterList: String): Response<List<GetCharacterByIdResponse>>
 
     companion object {
         private const val BASE_URL="https://rickandmortyapi.com/api/"

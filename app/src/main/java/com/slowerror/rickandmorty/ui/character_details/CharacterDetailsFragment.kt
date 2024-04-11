@@ -17,8 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-private const val TAG = "CharacterDetailsFragment"
-
 @AndroidEntryPoint
 class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_details) {
 
@@ -84,6 +82,10 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
                 "Female" -> genderIcon.setImageResource(R.drawable.ic_female_24)
                 "Male" -> genderIcon.setImageResource(R.drawable.ic_male_24)
             }
+
+            episodeListRw.adapter = CharacterWithEpisodeAdapter().apply {
+                submitList(character.episode)
+            }
         }
     }
 
@@ -104,7 +106,7 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
             genderIcon.isVisible = isVisible
             statusIcon.isVisible = isVisible
 
-            episodeListRw.isVisible = isVisible
+            episodesHeaderTextView.isVisible = isVisible
             episodeListRw.isVisible = isVisible
 
             originHeaderTextView.isVisible = isVisible

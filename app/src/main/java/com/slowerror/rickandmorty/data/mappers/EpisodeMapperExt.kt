@@ -6,10 +6,9 @@ import com.slowerror.rickandmorty.model.Episode
 
 
 fun GetEpisodeByIdResponse.toModel(characters: List<GetCharacterByIdResponse> = emptyList()): Episode {
-    return Episode(id, name, airDate, episode,
-        characters = characters.map {
-            it.toModel()
-        }
-    )
+    return Episode(id, name, airDate, episode, characters = characters.toCharacterList())
+}
 
+fun List<GetEpisodeByIdResponse>.toEpisodeList(): List<Episode> {
+    return this.map { it.toModel() }
 }

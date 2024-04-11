@@ -36,10 +36,10 @@ class EpisodeRepositoryImpl @Inject constructor(
     ): List<GetCharacterByIdResponse> {
         val characterList = episodeByIdResponse.characters.map {
             it.substring(startIndex = it.lastIndexOf("/") + 1)
-        }
+        }.toString()
 
         val request = remoteDataSource.getMultipleCharacterList(characterList)
-        return request.body() ?: emptyList()
+        return request.body().orEmpty()
     }
 
 

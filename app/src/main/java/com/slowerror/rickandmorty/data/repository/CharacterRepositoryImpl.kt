@@ -4,6 +4,8 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.slowerror.rickandmorty.common.Resource
 import com.slowerror.rickandmorty.data.api.RemoteDataSource
+import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
+import com.slowerror.rickandmorty.data.api.dto.GetEpisodeByIdResponse
 import com.slowerror.rickandmorty.data.mappers.toModel
 import com.slowerror.rickandmorty.data.safeApiCall
 import com.slowerror.rickandmorty.model.Character
@@ -17,7 +19,12 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacterById(characterId: Int): Resource<Character> =
         safeApiCall {
-            remoteDataSource.getCharacterById(characterId).body()?.toModel() ?: Character()
+            remoteDataSource.getCharacterById(characterId).body()?.let {
+                val networkEpisodes = getEpisodesFromCharacterResponse(it)
+
+                it.toModel(networkEpisodes)
+
+            } ?: Character()
         }
 
 
@@ -26,5 +33,17 @@ class CharacterRepositoryImpl @Inject constructor(
             pagingData.map { it.toModel() }
         }
 
+
+    private suspend fun getEpisodesFromCharacterResponse(
+        characterResponse: GetCharacterByIdResponse
+    ): List<GetEpisodeByIdResponse> {
+        val episodeList = characterResponse.episode.map {
+            it.substring(startIndex = it.lastIndexOf("/") + 1)
+        }.toString()
+
+        val request = remoteDataSource.getMultipleEpisodeList(episodeList)
+
+        return request.body().orEmpty()
+    }
 
 }

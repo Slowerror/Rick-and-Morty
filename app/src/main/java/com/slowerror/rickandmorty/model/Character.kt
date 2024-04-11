@@ -1,8 +1,5 @@
 package com.slowerror.rickandmorty.model
 
-import android.content.Context
-import com.slowerror.rickandmorty.R
-
 
 data class Character(
     val id: Int = 0,
@@ -14,7 +11,7 @@ data class Character(
     val origin: Origin = Origin(),
     val location: Location = Location(),
     val image: String = "",
-    val episode: List<String> = emptyList()
+    val episode: List<Episode> = emptyList()
 ) {
     data class Location(
         val name: String = "",
