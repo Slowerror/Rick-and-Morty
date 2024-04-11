@@ -65,6 +65,31 @@
         tools:src="@tools:sample/avatars" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/episodesHeaderTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_32x"
+        android:text="@string/episodes"
+        android:textSize="@dimen/font_24x"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/characterImage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/episodeListRw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_4x"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:itemCount="12"
+        app:layout_constraintTop_toBottomOf="@id/episodesHeaderTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/episode_item" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/originHeaderTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -74,7 +99,7 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/characterImage" />
+        app:layout_constraintTop_toBottomOf="@id/episodeListRw" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/originTextView"
@@ -123,6 +148,7 @@
     <include
         android:id="@+id/reloadLayout"
         layout="@layout/layout_reload_response"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

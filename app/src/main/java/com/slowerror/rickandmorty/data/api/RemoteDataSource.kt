@@ -32,4 +32,7 @@ class RemoteDataSource @Inject constructor(
     fun getEpisodeList(): Flow<PagingData<GetEpisodeByIdResponse>> {
         return Pager(PagingConfig(pageSize = 20)) { episodePagingDataSource }.flow
     }
+
+    suspend fun getMultipleCharacterList(list: List<String>) =
+        remoteService.getMultipleCharacterList(list)
 }

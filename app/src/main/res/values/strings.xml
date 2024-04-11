@@ -2,6 +2,7 @@
     <string name="app_name">Rick And Morty</string>
     <string name="origin">Origin</string>
     <string name="species">Species</string>
+    <string name="episodes">Episodes</string>
 
     <string name="alive">Alive</string>
     <string name="dead">Dead</string>
@@ -12,12 +13,13 @@
 
     <string name="status_with_species">%1$s - %2$s</string>
     <string name="name_episode_with_number">%1$s #%2$d</string>
-    
+    <string name="number_episode_with_name">#%1$d %2$s</string>
+
     <string name="characters_label">Персонажи</string>
     <string name="all_characters_label">Все персонажи</string>
     <string name="character_details_label">Подробности персонажа</string>
     <string name="episodes_label">Эпизоды</string>
     <string name="all_episodes_label">Все эпизоды</string>
     <string name="episode_details_label">Подробности эпизода</string>
-    
+
 </resources>

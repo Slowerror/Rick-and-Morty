@@ -37,14 +37,14 @@
 
         <action
             android:id="@+id/action_episodeListFragment_to_episodeDetailsFragment"
-            app:destination="@id/episodeDetailsFragment" />
+            app:destination="@id/episodeDetailsBottomSheetFragment" />
 
     </fragment>
 
-    <fragment
-        android:id="@+id/episodeDetailsFragment"
+    <dialog
+        android:id="@+id/episodeDetailsBottomSheetFragment"
         android:name="com.slowerror.rickandmorty.ui.episode_details.EpisodeDetailsFragment"
-        android:label="@string/episode_details_label"
+        android:label=""
         tools:layout="@layout/fragment_episode_details" >
 
         <!--suppress NavigationFile -->
@@ -53,6 +53,6 @@
             app:argType="integer"
             android:defaultValue="0" />
 
-    </fragment>
+    </dialog>
 
 </navigation>

@@ -104,6 +104,9 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
             genderIcon.isVisible = isVisible
             statusIcon.isVisible = isVisible
 
+            episodeListRw.isVisible = isVisible
+            episodeListRw.isVisible = isVisible
+
             originHeaderTextView.isVisible = isVisible
             originTextView.isVisible = isVisible
 

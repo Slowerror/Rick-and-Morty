@@ -1,13 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.BottomSheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/space_96x"
     tools:context=".ui.episode_details.EpisodeDetailsFragment">
 
-    <TextView
+    <!-- Drag handle for accessibility -->
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/dragHandle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/space_22x"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <!-- Bottom sheet contents. -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/nameTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_8x"
+        android:textSize="@dimen/font_18x"
+        app:layout_constraintEnd_toStartOf="@id/airDataTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dragHandle"
+        tools:text="#1 Pilot" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/episodeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/space_8x"
+        android:gravity="end"
+        android:paddingBottom="@dimen/space_16x"
+        android:textSize="@dimen/font_18x"
+        android:textStyle="bold"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/airDataTextView"
+        app:layout_constraintTop_toBottomOf="@id/dragHandle"
+        tools:text="S01E01" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/airDataTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:textSize="@dimen/font_12x"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="@id/episodeTextView"
+        app:layout_constraintTop_toBottomOf="@id/episodeTextView"
+        tools:text="December 2, 2013" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="nameTextView, airDataTextView" />
+
+    <View
+        android:id="@+id/dividerView"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/space_1x"
+        android:layout_marginTop="@dimen/space_8x"
+        android:background="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="@id/airDataTextView"
+        app:layout_constraintStart_toStartOf="@id/nameTextView"
+        app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/characterListRw"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_4x"
+        android:layout_marginVertical="@dimen/space_12x"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dividerView"
+        tools:itemCount="12"
+        tools:listitem="@layout/character_item_square" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="@id/dragHandle"
+        app:layout_constraintStart_toStartOf="@id/dragHandle"
+        app:layout_constraintTop_toBottomOf="@id/dragHandle" />
+
+    <include
+        android:id="@+id/reloadLayout"
+        layout="@layout/layout_reload_response"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

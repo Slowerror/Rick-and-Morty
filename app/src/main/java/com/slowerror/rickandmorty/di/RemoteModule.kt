@@ -33,5 +33,4 @@ object RemoteModule {
             remoteService = remoteService
         )
     }
-
 }
