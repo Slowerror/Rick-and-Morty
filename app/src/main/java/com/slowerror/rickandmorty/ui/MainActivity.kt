@@ -35,7 +35,11 @@ class MainActivity : AppCompatActivity() {
         val navItem = findViewById<NavigationView>(R.id.navView)
 
         appBarConfig = AppBarConfiguration(
-            setOf(R.id.characterListFragment, R.id.episodeListFragment),
+            setOf(
+                R.id.characterListFragment,
+                R.id.episodeListFragment,
+                R.id.searchCharacterListFragment
+            ),
             drawerLayout = drawerLayout
         )
 

@@ -8,6 +8,12 @@
                 android:icon="@drawable/ic_characters_24"
                 android:title="@string/all_characters_label"
                 android:checkable="true"/>
+
+            <item
+                android:id="@+id/searchCharacterListFragment"
+                android:icon="@drawable/ic_magnify_24"
+                android:title="@string/search_label"
+                android:checkable="true" />
         </menu>
     </item>
 

@@ -9,23 +9,28 @@
         android:id="@+id/characterListFragment"
         android:name="com.slowerror.rickandmorty.ui.character_list.CharacterListFragment"
         android:label="@string/characters_label"
-        tools:layout="@layout/fragment_character_list" >
+        tools:layout="@layout/fragment_character_list">
+
         <action
             android:id="@+id/action_characterListFragment_to_characterDetailsFragment"
             app:destination="@id/characterDetailsFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.slowerror.rickandmorty.ui.character_details.CharacterDetailsFragment"
         android:label="@string/character_details_label"
-        tools:layout="@layout/fragment_character_details" >
+        tools:layout="@layout/fragment_character_details">
 
         <!--suppress NavigationFile -->
         <argument
             android:name="characterId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_characterDetailsFragment_to_episodeDetailsBottomSheetFragment"
+            app:destination="@id/episodeDetailsBottomSheetFragment" />
 
     </fragment>
 
@@ -33,7 +38,7 @@
         android:id="@+id/episodeListFragment"
         android:name="com.slowerror.rickandmorty.ui.episode_list.EpisodeListFragment"
         android:label="@string/episodes_label"
-        tools:layout="@layout/fragment_episode_list" >
+        tools:layout="@layout/fragment_episode_list">
 
         <action
             android:id="@+id/action_episodeListFragment_to_episodeDetailsFragment"
@@ -45,14 +50,20 @@
         android:id="@+id/episodeDetailsBottomSheetFragment"
         android:name="com.slowerror.rickandmorty.ui.episode_details.EpisodeDetailsFragment"
         android:label=""
-        tools:layout="@layout/fragment_episode_details" >
+        tools:layout="@layout/fragment_episode_details">
 
         <!--suppress NavigationFile -->
         <argument
             android:name="episodeId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
 
     </dialog>
+
+    <fragment
+        android:id="@+id/searchCharacterListFragment"
+        android:name="com.slowerror.rickandmorty.ui.search_character_list.SearchCharacterListFragment"
+        android:label="@string/search_label"
+        tools:layout="@layout/fragment_search_character_list" />
 
 </navigation>

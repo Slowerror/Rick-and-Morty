@@ -9,21 +9,23 @@ import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.EpisodeItemBinding
 import com.slowerror.rickandmorty.domain.model.Episode
 
-class CharacterWithEpisodeAdapter : ListAdapter<Episode, CharacterWithEpisodeAdapter.CharacterWithEpisodeViewHolder>(CharacterWithEpisodeDiffCallback) {
+class CharacterWithEpisodeAdapter(
+    private val onClick: (Int) -> Unit
+) : ListAdapter<Episode, CharacterWithEpisodeAdapter.CharacterWithEpisodeViewHolder>(CharacterWithEpisodeDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterWithEpisodeViewHolder {
         return CharacterWithEpisodeViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: CharacterWithEpisodeViewHolder, position: Int) {
-        getItem(position).let { holder.bind(it) }
+        getItem(position).let { holder.bind(it, onClick) }
     }
 
     class CharacterWithEpisodeViewHolder(
         private val binding: EpisodeItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Episode) {
+        fun bind(item: Episode, onClick: (Int) -> Unit) {
             with(binding) {
                 episodeTextView.text = item.episode
                 dataTextView.text = item.airDate
@@ -33,6 +35,12 @@ class CharacterWithEpisodeAdapter : ListAdapter<Episode, CharacterWithEpisodeAda
                     item.name,
                     item.id
                 )
+
+
+            }
+
+            itemView.setOnClickListener {
+                onClick.invoke(item.id)
             }
         }
 

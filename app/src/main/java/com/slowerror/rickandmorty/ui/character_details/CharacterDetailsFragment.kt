@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.slowerror.rickandmorty.R
@@ -44,6 +45,7 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
                         binding.reloadLayout.root.isVisible = false
                         setIsVisibleView(false)
                     }
+
                     state.data != null -> {
                         binding.progressBar.isVisible = false
                         binding.reloadLayout.root.isVisible = false
@@ -51,6 +53,7 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
 
                         setBinding(state.data)
                     }
+
                     state.errorMessage != null -> {
                         binding.progressBar.isVisible = false
                         binding.reloadLayout.root.isVisible = true
@@ -83,7 +86,12 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
                 "Male" -> genderIcon.setImageResource(R.drawable.ic_male_24)
             }
 
-            episodeListRw.adapter = CharacterWithEpisodeAdapter().apply {
+            episodeListRw.adapter = CharacterWithEpisodeAdapter {
+                findNavController().navigate(
+                    CharacterDetailsFragmentDirections
+                        .actionCharacterDetailsFragmentToEpisodeDetailsBottomSheetFragment(it)
+                )
+            }.apply {
                 submitList(character.episode)
             }
         }
