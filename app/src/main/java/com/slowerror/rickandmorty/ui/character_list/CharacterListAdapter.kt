@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemBinding
-import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.domain.model.Character
 import com.slowerror.rickandmorty.ui.character_list.CharacterListAdapter.CharacterViewHolder
 
 const val VIEW_TYPE_NORMAL = 0

@@ -2,8 +2,8 @@ package com.slowerror.rickandmorty.ui.episode_details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.slowerror.rickandmorty.common.Resource
-import com.slowerror.rickandmorty.data.repository.EpisodeRepository
+import com.slowerror.rickandmorty.domain.common.Resource
+import com.slowerror.rickandmorty.domain.repository.EpisodeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

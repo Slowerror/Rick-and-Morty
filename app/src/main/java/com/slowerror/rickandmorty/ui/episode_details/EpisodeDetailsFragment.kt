@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentEpisodeDetailsBinding
-import com.slowerror.rickandmorty.model.Episode
+import com.slowerror.rickandmorty.domain.model.Episode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -1,6 +1,6 @@
 package com.slowerror.rickandmorty.ui.episode_details
 
-import com.slowerror.rickandmorty.model.Episode
+import com.slowerror.rickandmorty.domain.model.Episode
 
 data class EpisodeDetailsState(
     val isLoading: Boolean = false,

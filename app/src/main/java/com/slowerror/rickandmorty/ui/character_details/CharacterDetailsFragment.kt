@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import coil.load
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentCharacterDetailsBinding
-import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.domain.model.Character
 import com.slowerror.rickandmorty.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn

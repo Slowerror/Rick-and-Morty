@@ -2,13 +2,14 @@ package com.slowerror.rickandmorty.data.repository
 
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.slowerror.rickandmorty.common.Resource
+import com.slowerror.rickandmorty.domain.common.Resource
 import com.slowerror.rickandmorty.data.api.RemoteDataSource
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.data.api.dto.GetEpisodeByIdResponse
 import com.slowerror.rickandmorty.data.mappers.toModel
 import com.slowerror.rickandmorty.data.safeApiCall
-import com.slowerror.rickandmorty.model.Episode
+import com.slowerror.rickandmorty.domain.model.Episode
+import com.slowerror.rickandmorty.domain.repository.EpisodeRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

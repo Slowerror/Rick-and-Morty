@@ -1,8 +1,8 @@
 package com.slowerror.rickandmorty.di
 
-import com.slowerror.rickandmorty.data.repository.CharacterRepository
+import com.slowerror.rickandmorty.domain.repository.CharacterRepository
 import com.slowerror.rickandmorty.data.repository.CharacterRepositoryImpl
-import com.slowerror.rickandmorty.data.repository.EpisodeRepository
+import com.slowerror.rickandmorty.domain.repository.EpisodeRepository
 import com.slowerror.rickandmorty.data.repository.EpisodeRepositoryImpl
 import dagger.Binds
 import dagger.Module

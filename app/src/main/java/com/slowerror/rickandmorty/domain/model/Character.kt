@@ -1,4 +1,4 @@
-package com.slowerror.rickandmorty.model
+package com.slowerror.rickandmorty.domain.model
 
 
 data class Character(

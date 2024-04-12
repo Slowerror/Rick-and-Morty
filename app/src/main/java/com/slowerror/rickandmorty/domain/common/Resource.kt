@@ -1,4 +1,4 @@
-package com.slowerror.rickandmorty.common
+package com.slowerror.rickandmorty.domain.common
 
 sealed interface Resource<out T> {
     data class Success<out T>(val data: T) : Resource<T>

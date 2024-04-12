@@ -1,8 +1,8 @@
-package com.slowerror.rickandmorty.data.repository
+package com.slowerror.rickandmorty.domain.repository
 
 import androidx.paging.PagingData
-import com.slowerror.rickandmorty.common.Resource
-import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.domain.common.Resource
+import com.slowerror.rickandmorty.domain.model.Character
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {

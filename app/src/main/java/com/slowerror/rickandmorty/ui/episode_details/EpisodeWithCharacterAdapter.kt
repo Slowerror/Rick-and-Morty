@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemSquareBinding
-import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.domain.model.Character
 import com.slowerror.rickandmorty.ui.episode_details.EpisodeWithCharacterAdapter.CharacterSquareViewHolder
 
 class EpisodeWithCharacterAdapter : ListAdapter<Character, CharacterSquareViewHolder>(CharacterSquareDiffCallback) {

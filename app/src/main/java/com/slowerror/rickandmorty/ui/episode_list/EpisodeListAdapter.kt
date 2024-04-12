@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.EpisodeItemBinding
-import com.slowerror.rickandmorty.model.Episode
+import com.slowerror.rickandmorty.domain.model.Episode
 import com.slowerror.rickandmorty.ui.episode_list.EpisodeListAdapter.EpisodeViewHolder
 
 class EpisodeListAdapter(

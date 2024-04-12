@@ -2,7 +2,7 @@ package com.slowerror.rickandmorty.data.mappers
 
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.data.api.dto.GetEpisodeByIdResponse
-import com.slowerror.rickandmorty.model.Character
+import com.slowerror.rickandmorty.domain.model.Character
 
 typealias originDto = GetCharacterByIdResponse.Origin
 typealias locationDto = GetCharacterByIdResponse.Location

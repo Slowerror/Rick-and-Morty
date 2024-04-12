@@ -1,6 +1,6 @@
 package com.slowerror.rickandmorty.data
 
-import com.slowerror.rickandmorty.common.Resource
+import com.slowerror.rickandmorty.domain.common.Resource
 
 const val STARTED_KEY = 1
 
