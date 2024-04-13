@@ -10,4 +10,6 @@ interface CharacterRepository {
     suspend fun getCharacterById(characterId: Int): Resource<Character>
 
     fun getCharacterList(): Flow<PagingData<Character>>
+
+    fun getCharacterListByName(userRequest: String): Flow<PagingData<Character>>
 }

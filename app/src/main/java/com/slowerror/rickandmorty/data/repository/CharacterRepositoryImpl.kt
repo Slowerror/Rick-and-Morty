@@ -34,6 +34,10 @@ class CharacterRepositoryImpl @Inject constructor(
             pagingData.map { it.toModel() }
         }
 
+    override fun getCharacterListByName(userRequest: String): Flow<PagingData<Character>> =
+        remoteDataSource.getCharacterListByName(userRequest).map { pagingData ->
+            pagingData.map { it.toModel() }
+        }
 
     private suspend fun getEpisodesFromCharacterResponse(
         characterResponse: GetCharacterByIdResponse

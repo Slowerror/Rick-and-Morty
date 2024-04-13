@@ -35,8 +35,8 @@ interface RemoteService {
 
     @GET(CHARACTER_ENDPOINT)
     suspend fun getCharacterListByName(
-        @Query("name") characterName: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("name") characterName: String
     ): Response<GetCharacterListResponse>
 
     companion object {
@@ -45,7 +45,7 @@ interface RemoteService {
         private const val EPISODE_ENDPOINT = "episode"
 
         private val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.HEADERS
         }
 
         private val okHttpClient = OkHttpClient.Builder()

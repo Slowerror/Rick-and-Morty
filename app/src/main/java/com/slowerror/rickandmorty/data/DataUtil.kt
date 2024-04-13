@@ -11,3 +11,8 @@ inline fun <T> safeApiCall(apiCall: () -> T): Resource<T> {
         Resource.error(e.message.toString())
     }
 }
+
+fun getPage(page: String?): Int? {
+    if (page == null) return null
+    return page.substringAfter("?page=").first().digitToInt()
+}

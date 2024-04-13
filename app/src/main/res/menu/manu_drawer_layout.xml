@@ -11,7 +11,7 @@
 
             <item
                 android:id="@+id/searchCharacterListFragment"
-                android:icon="@drawable/ic_magnify_24"
+                android:icon="@drawable/ic_search_characters_24"
                 android:title="@string/search_label"
                 android:checkable="true" />
         </menu>

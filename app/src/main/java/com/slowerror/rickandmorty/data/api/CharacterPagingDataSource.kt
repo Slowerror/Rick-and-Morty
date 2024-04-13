@@ -1,10 +1,10 @@
 package com.slowerror.rickandmorty.data.api
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.slowerror.rickandmorty.data.STARTED_KEY
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
+import com.slowerror.rickandmorty.data.getPage
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -21,7 +21,6 @@ class CharacterPagingDataSource @Inject constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetCharacterByIdResponse> {
         return try {
-            Log.i("pagingLoad", "load was called")
             val pageNumber = params.key ?: STARTED_KEY
             val response = remoteService.getCharacterList(pageNumber)
 
@@ -46,9 +45,6 @@ class CharacterPagingDataSource @Inject constructor(
         }
     }
 
-    private fun getPage(page: String?): Int? {
-        if (page == null) return null
-        return page.substringAfter("?page=").toInt()
-    }
+
 
 }

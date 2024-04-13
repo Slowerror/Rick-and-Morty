@@ -64,6 +64,10 @@
         android:id="@+id/searchCharacterListFragment"
         android:name="com.slowerror.rickandmorty.ui.search_character_list.SearchCharacterListFragment"
         android:label="@string/search_label"
-        tools:layout="@layout/fragment_search_character_list" />
+        tools:layout="@layout/fragment_search_character_list" >
+        <action
+            android:id="@+id/action_searchCharacterListFragment_to_characterDetailsFragment"
+            app:destination="@id/characterDetailsFragment" />
+    </fragment>
 
 </navigation>
