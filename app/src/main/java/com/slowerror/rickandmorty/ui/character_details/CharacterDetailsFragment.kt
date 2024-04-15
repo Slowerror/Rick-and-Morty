@@ -106,23 +106,7 @@ class CharacterDetailsFragment : BaseFragment(R.layout.fragment_character_detail
     }
 
     private fun setIsVisibleView(isVisible: Boolean) {
-        binding.apply {
-            nameTextView.isVisible = isVisible
-            statusTextView.isVisible = isVisible
-            characterImage.isVisible = isVisible
-
-            genderIcon.isVisible = isVisible
-            statusIcon.isVisible = isVisible
-
-            episodesHeaderTextView.isVisible = isVisible
-            episodeListRw.isVisible = isVisible
-
-            originHeaderTextView.isVisible = isVisible
-            originTextView.isVisible = isVisible
-
-            speciesHeaderTextView.isVisible = isVisible
-            speciesTextView.isVisible = isVisible
-        }
+        binding.contentGroup.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun onDestroyView() {

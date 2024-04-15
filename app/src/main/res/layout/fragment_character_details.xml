@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,153 +7,166 @@
     android:padding="@dimen/space_16x"
     tools:context=".ui.character_details.CharacterDetailsFragment">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/nameTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/space_8x"
-        android:textSize="@dimen/font_24x"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/genderIcon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Character Name" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/statusTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4x"
-        android:layout_marginStart="@dimen/space_8x"
-        android:textSize="@dimen/font_18x"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@id/nameTextView"
-        app:layout_constraintStart_toEndOf="@id/statusIcon"
-        app:layout_constraintTop_toBottomOf="@id/nameTextView"
-        tools:text="Dead" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/statusIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_circle_24"
-        app:layout_constraintTop_toTopOf="@id/statusTextView"
-        app:layout_constraintBottom_toBottomOf="@id/statusTextView"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/genderIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_male_24" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/characterImage"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="@dimen/space_32x"
-        android:elevation="@dimen/space_4x"
-        android:padding="@dimen/space_1x"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statusTextView"
-        app:strokeColor="?attr/colorOnSurface"
-        app:strokeWidth="@dimen/space_1x"
-        tools:src="@tools:sample/avatars" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/episodesHeaderTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_32x"
-        android:text="@string/episodes"
-        android:textSize="@dimen/font_24x"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/characterImage" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/episodeListRw"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4x"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        tools:itemCount="12"
-        app:layout_constraintTop_toBottomOf="@id/episodesHeaderTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/episode_item" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/originHeaderTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_32x"
-        android:text="@string/origin"
-        android:textSize="@dimen/font_24x"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/episodeListRw" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_8x"
+            android:textSize="@dimen/font_24x"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/genderIcon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Character Name" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/originTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4x"
-        android:textSize="@dimen/font_18x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/originHeaderTextView"
-        tools:text="Earth (C-137)" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/statusTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8x"
+            android:layout_marginTop="@dimen/space_4x"
+            android:textSize="@dimen/font_18x"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="@id/nameTextView"
+            app:layout_constraintStart_toEndOf="@id/statusIcon"
+            app:layout_constraintTop_toBottomOf="@id/nameTextView"
+            tools:text="Dead" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/speciesHeaderTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_32x"
-        android:text="@string/species"
-        android:textSize="@dimen/font_24x"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/originTextView" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/statusIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_circle_24"
+            app:layout_constraintBottom_toBottomOf="@id/statusTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/statusTextView" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/speciesTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_4x"
-        android:textSize="@dimen/font_18x"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/speciesHeaderTextView"
-        tools:text="Human" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/genderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_male_24" />
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/characterImage"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="@dimen/space_32x"
+            android:elevation="@dimen/space_4x"
+            android:padding="@dimen/space_1x"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statusTextView"
+            app:strokeColor="?attr/colorOnSurface"
+            app:strokeWidth="@dimen/space_1x"
+            tools:src="@tools:sample/avatars" />
 
-    <include
-        android:id="@+id/reloadLayout"
-        layout="@layout/layout_reload_response"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/episodesHeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32x"
+            android:text="@string/episodes"
+            android:textSize="@dimen/font_24x"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/characterImage" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/episodeListRw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/episodesHeaderTextView"
+            tools:itemCount="12"
+            tools:listitem="@layout/episode_item" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/originHeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32x"
+            android:text="@string/origin"
+            android:textSize="@dimen/font_24x"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/episodeListRw" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/originTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:textSize="@dimen/font_18x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/originHeaderTextView"
+            tools:text="Earth (C-137)" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/speciesHeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32x"
+            android:text="@string/species"
+            android:textSize="@dimen/font_24x"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/originTextView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/speciesTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4x"
+            android:textSize="@dimen/font_18x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/speciesHeaderTextView"
+            tools:text="Human" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/reloadLayout"
+            layout="@layout/layout_reload_response"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/contentGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="nameTextView, statusTextView, statusIcon, genderIcon, characterImage, episodesHeaderTextView, episodeListRw, originHeaderTextView, originTextView, speciesHeaderTextView, speciesTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+
