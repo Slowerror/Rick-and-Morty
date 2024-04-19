@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemBinding
 import com.slowerror.rickandmorty.domain.model.Character
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_FOOTER
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_NORMAL
 import com.slowerror.rickandmorty.ui.character_list.CharacterListAdapter.CharacterViewHolder
-
-const val VIEW_TYPE_NORMAL = 0
-private const val VIEW_TYPE_FOOTER = 1
 
 class CharacterListAdapter(
     private val characterOnClickInterface: CharacterOnClickInterface

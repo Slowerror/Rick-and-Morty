@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.slowerror.rickandmorty.databinding.CharacterItemBinding
 import com.slowerror.rickandmorty.domain.model.Character
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_FOOTER
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_NORMAL
 import com.slowerror.rickandmorty.ui.search_character_list.SearchCharacterListAdapter.SearchCharacterViewHolder
 
 class SearchCharacterListAdapter(
@@ -23,6 +25,9 @@ class SearchCharacterListAdapter(
         getItem(position)?.let { holder.bind(it, onClick) }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) VIEW_TYPE_FOOTER else VIEW_TYPE_NORMAL
+    }
 
     class SearchCharacterViewHolder(
         private val binding: CharacterItemBinding

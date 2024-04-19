@@ -1,6 +1,7 @@
 package com.slowerror.rickandmorty.ui.search_character_list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -16,6 +17,8 @@ import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentSearchCharacterListBinding
 import com.slowerror.rickandmorty.domain.common.CustomException
 import com.slowerror.rickandmorty.ui.base.BaseFragment
+import com.slowerror.rickandmorty.ui.base.LoadStateAdapter
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_NORMAL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
@@ -44,23 +47,28 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
         }
 
         binding.reloadLayout.retryButton.setOnClickListener {
-            searchCharacterListAdapter.refresh()
+            searchCharacterListAdapter.retry()
         }
 
         searchCharacterListAdapter.loadStateFlow
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach { loadState ->
-                binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-                binding.reloadLayout.root.isVisible = loadState.source.refresh is LoadState.Error
-                binding.characterListRw.isVisible = loadState.source.refresh is LoadState.NotLoading
+                val sourceRefresh = loadState.source.refresh
+                val sourceAppend = loadState.source.append
+                val sourcePrepend = loadState.source.prepend
 
-                if (loadState.source.refresh is LoadState.NotLoading) {
+                binding.progressBar.isVisible = sourceRefresh is LoadState.Loading
+                binding.reloadLayout.root.isVisible = sourceRefresh is LoadState.Error
+                binding.characterListRw.isVisible = sourceRefresh is LoadState.NotLoading
+
+                val errorState = sourceAppend as? LoadState.Error
+                    ?: sourcePrepend as? LoadState.Error
+                    ?: sourceRefresh as? LoadState.Error
+
+                if (sourceRefresh is LoadState.NotLoading && sourceAppend is LoadState.NotLoading) {
+                    Log.i("searchFragment", loadState.source.toString())
                     binding.characterListRw.scrollToPosition(0)
                 }
-
-                val errorState = loadState.source.append as? LoadState.Error
-                    ?: loadState.source.prepend as? LoadState.Error
-                    ?: loadState.source.refresh as? LoadState.Error
 
                 errorState?.let {
                     when (it.error) {
@@ -102,8 +110,19 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
     }
 
     private fun initAdapter() {
-        binding.characterListRw.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.characterListRw.adapter = searchCharacterListAdapter
+        val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
+            spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (searchCharacterListAdapter.getItemViewType(position) == VIEW_TYPE_NORMAL)
+                        1 else spanCount
+                }
+            }
+        }
+
+        binding.characterListRw.layoutManager = gridLayoutManager
+        binding.characterListRw.adapter = searchCharacterListAdapter.withLoadStateFooter(
+            footer = LoadStateAdapter { searchCharacterListAdapter.retry() }
+        )
     }
 
     private fun inputSearchRequest() {

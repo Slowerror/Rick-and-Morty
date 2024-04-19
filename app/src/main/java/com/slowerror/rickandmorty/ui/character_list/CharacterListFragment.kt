@@ -14,6 +14,7 @@ import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentCharacterListBinding
 import com.slowerror.rickandmorty.ui.base.BaseFragment
 import com.slowerror.rickandmorty.ui.base.LoadStateAdapter
+import com.slowerror.rickandmorty.ui.base.VIEW_TYPE_NORMAL
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -36,11 +37,7 @@ class CharacterListFragment :
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentCharacterListBinding.bind(view)
 
-        setGridLayoutManager()
-
-        binding.characterListRw.adapter = characterListAdapter.withLoadStateFooter(
-            footer = LoadStateAdapter { characterListAdapter.retry() }
-        )
+        initAdapter()
 
         binding.reloadLayout.retryButton.setOnClickListener {
             characterListAdapter.retry()
@@ -77,7 +74,7 @@ class CharacterListFragment :
         _binding = null
     }
 
-    private fun setGridLayoutManager() {
+    private fun initAdapter() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 2).apply {
             spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                 override fun getSpanSize(position: Int): Int {
@@ -88,6 +85,9 @@ class CharacterListFragment :
         }
 
         binding.characterListRw.layoutManager = gridLayoutManager
+        binding.characterListRw.adapter = characterListAdapter.withLoadStateFooter(
+            footer = LoadStateAdapter { characterListAdapter.retry() }
+        )
     }
 
     override fun onClickToItem(characterId: Int) {
