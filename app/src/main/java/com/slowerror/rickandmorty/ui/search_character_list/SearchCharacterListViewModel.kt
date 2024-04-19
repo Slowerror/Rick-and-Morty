@@ -31,11 +31,12 @@ class SearchCharacterListViewModel @Inject constructor(
                     delay(500)
                     characterRepository.getCharacterListByName(request)
                 }
+
                 false -> {
                     flowOf(
                         PagingData.empty(
                             sourceLoadStates = LoadStates(
-                                refresh = LoadState.NotLoading(true),
+                                refresh = LoadState.NotLoading(false),
                                 prepend = LoadState.NotLoading(true),
                                 append = LoadState.NotLoading(true)
                             )
@@ -44,11 +45,13 @@ class SearchCharacterListViewModel @Inject constructor(
                 }
             }
 
-        }.cachedIn(viewModelScope)
+        }
+        .cachedIn(viewModelScope)
 
 
     fun onSearchRequestChanged(userRequest: String) {
         searchRequest.value = userRequest
     }
+
 
 }

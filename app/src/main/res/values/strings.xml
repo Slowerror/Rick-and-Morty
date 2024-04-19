@@ -27,4 +27,6 @@
     <string name="search_label">Поиск персонажа</string>
     <string name="search">Поиск</string>
 
+
+    <string name="incorrect_request">Персонаж не найден</string>
 </resources>

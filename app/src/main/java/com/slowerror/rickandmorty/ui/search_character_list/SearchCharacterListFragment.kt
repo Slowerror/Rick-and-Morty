@@ -1,7 +1,6 @@
 package com.slowerror.rickandmorty.ui.search_character_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -15,10 +14,10 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.slowerror.rickandmorty.R
 import com.slowerror.rickandmorty.databinding.FragmentSearchCharacterListBinding
+import com.slowerror.rickandmorty.domain.common.CustomException
 import com.slowerror.rickandmorty.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -38,34 +37,59 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchCharacterListBinding.bind(view)
 
-
-        binding.characterListRw.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.characterListRw.adapter = searchCharacterListAdapter
+        initAdapter()
 
         binding.searchEditText.doAfterTextChanged {
             inputSearchRequest()
         }
 
+        binding.reloadLayout.retryButton.setOnClickListener {
+            searchCharacterListAdapter.refresh()
+        }
 
         searchCharacterListAdapter.loadStateFlow
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach { loadState ->
-
                 binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 binding.reloadLayout.root.isVisible = loadState.source.refresh is LoadState.Error
                 binding.characterListRw.isVisible = loadState.source.refresh is LoadState.NotLoading
 
+                if (loadState.source.refresh is LoadState.NotLoading) {
+                    binding.characterListRw.scrollToPosition(0)
+                }
 
                 val errorState = loadState.source.append as? LoadState.Error
                     ?: loadState.source.prepend as? LoadState.Error
                     ?: loadState.source.refresh as? LoadState.Error
 
-
                 errorState?.let {
-                    showLongSnackBar(requireView(), it.error.localizedMessage)
+                    when (it.error) {
+                        CustomException.IncorrectRequest -> {
+                            with(binding.reloadLayout) {
+                                noConnectionImageView.setImageResource(R.drawable.ic_magnify_remove_64)
+                                noConnectionTextView.text = getString(R.string.incorrect_request)
+                                descriptionExcTextView.isVisible = false
+                                retryButton.isVisible = false
+                            }
+
+                        }
+
+                        else -> {
+                            with(binding.reloadLayout) {
+                                noConnectionImageView.setImageResource(R.drawable.ic_no_connection_64)
+                                noConnectionTextView.text = getString(R.string.no_connection)
+                                descriptionExcTextView.isVisible = true
+                                retryButton.isVisible = true
+                            }
+
+                            showShortToast(requireContext(), it.error.localizedMessage)
+                        }
+
+                    }
                 }
 
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -75,6 +99,11 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
             }
         }
 
+    }
+
+    private fun initAdapter() {
+        binding.characterListRw.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.characterListRw.adapter = searchCharacterListAdapter
     }
 
     private fun inputSearchRequest() {

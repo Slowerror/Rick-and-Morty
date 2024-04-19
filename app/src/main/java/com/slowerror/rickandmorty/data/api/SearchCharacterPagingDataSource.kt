@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.slowerror.rickandmorty.data.STARTED_KEY
 import com.slowerror.rickandmorty.data.api.dto.GetCharacterByIdResponse
 import com.slowerror.rickandmorty.data.getPage
+import com.slowerror.rickandmorty.domain.common.CustomException
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -28,28 +29,30 @@ class SearchCharacterPagingDataSource @Inject constructor(
                 characterName = userRequest
             )
 
-            if (response.isSuccessful) {
+            if (!response.isSuccessful) {
+                val exception = if (response.code() == 404) CustomException.IncorrectRequest else
+                    CustomException.HttpException(HttpException(response).localizedMessage)
+
+                LoadResult.Error(exception)
+            } else {
                 val pageResponse = response.body()
                 val data = response.body()?.results
 
                 val prevKey = getPage(pageResponse?.info?.prev)
                 val nextKey = getPage(pageResponse?.info?.next)
 
-
                 LoadResult.Page(
                     data = data.orEmpty(),
                     prevKey = prevKey,
                     nextKey = nextKey
                 )
-            } else {
-                LoadResult.Error(HttpException(response))
             }
 
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            val exception = CustomException.OtherException(e.localizedMessage)
+            LoadResult.Error(exception)
         }
 
     }
-
 
 }
