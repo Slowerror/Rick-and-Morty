@@ -1,7 +1,6 @@
 package com.slowerror.rickandmorty.ui.search_character_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -65,36 +64,11 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
                     ?: sourcePrepend as? LoadState.Error
                     ?: sourceRefresh as? LoadState.Error
 
-                if (sourceRefresh is LoadState.NotLoading && sourceAppend is LoadState.NotLoading) {
-                    Log.i("searchFragment", loadState.source.toString())
+                if (sourceRefresh is LoadState.Loading && sourceAppend is LoadState.NotLoading) {
                     binding.characterListRw.scrollToPosition(0)
                 }
 
-                errorState?.let {
-                    when (it.error) {
-                        CustomException.IncorrectRequest -> {
-                            with(binding.reloadLayout) {
-                                noConnectionImageView.setImageResource(R.drawable.ic_magnify_remove_64)
-                                noConnectionTextView.text = getString(R.string.incorrect_request)
-                                descriptionExcTextView.isVisible = false
-                                retryButton.isVisible = false
-                            }
-
-                        }
-
-                        else -> {
-                            with(binding.reloadLayout) {
-                                noConnectionImageView.setImageResource(R.drawable.ic_no_connection_64)
-                                noConnectionTextView.text = getString(R.string.no_connection)
-                                descriptionExcTextView.isVisible = true
-                                retryButton.isVisible = true
-                            }
-
-                            showShortToast(requireContext(), it.error.localizedMessage)
-                        }
-
-                    }
-                }
+                errorState?.let { handleCustomError(it.error) }
 
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -107,6 +81,32 @@ class SearchCharacterListFragment : BaseFragment(R.layout.fragment_search_charac
             }
         }
 
+    }
+
+    private fun handleCustomError(error: Throwable) {
+        when (error) {
+            CustomException.IncorrectRequest -> {
+                with(binding.reloadLayout) {
+                    noConnectionImageView.setImageResource(R.drawable.ic_magnify_remove_64)
+                    noConnectionTextView.text = getString(R.string.incorrect_request)
+                    descriptionExcTextView.isVisible = false
+                    retryButton.isVisible = false
+                }
+
+            }
+
+            else -> {
+                with(binding.reloadLayout) {
+                    noConnectionImageView.setImageResource(R.drawable.ic_no_connection_64)
+                    noConnectionTextView.text = getString(R.string.no_connection)
+                    descriptionExcTextView.isVisible = true
+                    retryButton.isVisible = true
+                }
+
+                showShortToast(requireContext(), error.localizedMessage)
+            }
+
+        }
     }
 
     private fun initAdapter() {

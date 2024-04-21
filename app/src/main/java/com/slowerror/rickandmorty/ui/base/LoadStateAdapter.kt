@@ -31,10 +31,6 @@ class LoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadVie
         }
 
         fun bind(loadState: LoadState) {
-            /*if (loadState is LoadState.Error) {
-                binding.noConnectionTextView.text = loadState.error.localizedMessage
-            }*/
-
             binding.root.isVisible = loadState is LoadState.Error
         }
 
