@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rick And Morty</string>
+    <string name="app_name">Rick and Morty</string>
     <string name="origin">Origin</string>
     <string name="species">Species</string>
     <string name="episodes">Episodes</string>
